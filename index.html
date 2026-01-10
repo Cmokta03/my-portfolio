@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chhiring Moktan | IT Support Specialist Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            color: #e5e7eb;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .animated-bg {
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particles effect */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(52, 211, 153, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #34d399;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2dd189;
+        }
+
+        /* Glow effect */
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+            transition: box-shadow 0.3s ease;
+        }
+        .glow-effect:hover {
+            box-shadow: 0 0 40px rgba(52, 211, 153, 0.5);
+        }
+
+        /* Card animations */
+        .card-hover-effect {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        .card-hover-effect:hover::before {
+            left: 100%;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-left: 3px solid #34d399;
+        }
+
+        /* Section fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typing animation */
+        .typing-animation {
+            overflow: hidden;
+            border-right: 3px solid #34d399;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* Mobile menu animation */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Skill bar animation */
+        .skill-bar {
+            width: 0;
+            transition: width 1.5s ease;
+        }
+        .skill-bar.animate {
+            width: var(--skill-width);
+        }
+
+        /* Pulse animation for CTA buttons */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+            50% { box-shadow: 0 0 0 15px rgba(52, 211, 153, 0); }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #34d399, #10b981);
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        /* Responsive text sizing */
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2.5rem !important;
+            }
+            .hero-subtitle {
+                font-size: 1.5rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="animated-bg selection:bg-accent selection:text-black">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Floating Particles -->
+    <div id="particles"></div>
+
+    <!-- Mobile Menu Toggle -->
+    <button id="mobileMenuBtn" class="fixed top-4 right-4 z-[60] md:hidden bg-[#1a1a1a] p-3 rounded-lg border border-gray-700">
+        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+    </button>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-[#0d0d0d] bg-opacity-95 shadow-lg backdrop-blur-sm border-b border-gray-800">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-3xl font-extrabold text-white glow-effect hover:text-accent transition-colors duration-300">C<span class="text-accent">M</span></a>
+            
+            <!-- Desktop Navigation -->
+            <div class="space-x-6 lg:space-x-8 text-base lg:text-lg hidden md:flex hover:green">
+                <a href="#about" class="nav-link text-gray-300 hover:text-accent hover:scale-110 transition-all duration-200 relative group glow-effect">
+                    About
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#expertise" class="nav-link text-gray-300 hover:text-accent hover:scale-110 transition-all duration-200 relative group  glow-effect">
+                    Expertise
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#experience" class="nav-link text-gray-300 hover:text-accent hover:scale-110 transition-all duration-200 relative group  glow-effect">
+                    Experience
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#education" class="nav-link text-gray-300 hover:text-accent hover:scale-110 transition-all duration-200 relative group  glow-effect">
+                    Education
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="nav-link text-gray-300 hover:text-accent hover:scale-110 transition-all duration-200 relative group  glow-effect">
+                    Contact
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation -->
+        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-[#1a1a1a] z-50 shadow-2xl md:hidden">
+            <button id="closeMobileMenu" class="absolute top-4 right-4 text-gray-400 hover:text-accent">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <nav class="flex flex-col space-y-6 p-8 mt-12">
+                <a href="#about" class="mobile-nav-link text-xl text-gray-300 hover:text-accent hover:bg-gray-800 px-4 py-2 rounded-lg transition-all duration-300">About</a>
+                <a href="#expertise" class="mobile-nav-link text-xl text-gray-300 hover:text-accent hover:bg-gray-800 px-4 py-2 rounded-lg transition-all duration-300">Expertise</a>
+                <a href="#experience" class="mobile-nav-link text-xl text-gray-300 hover:text-accent hover:bg-gray-800 px-4 py-2 rounded-lg transition-all duration-300">Experience</a>
+                <a href="#education" class="mobile-nav-link text-xl text-gray-300 hover:text-accent hover:bg-gray-800 px-4 py-2 rounded-lg transition-all duration-300">Education</a>
+                <a href="#contact" class="mobile-nav-link text-xl text-gray-300 hover:text-accent hover:bg-gray-800 px-4 py-2 rounded-lg transition-all duration-300">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-[90vh] flex items-center pt-20 pb-16 fade-in">
+            <div class="max-w-4xl">
+                <p class="text-lg md:text-xl lg:text-2xl text-accent font-mono tracking-widest mb-4 animate-pulse">
+                    Hi! I'm Chhiring Moktan
+                </p>
+                <h1 class="hero-title text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight text-white mb-4">
+                    IT Support <br class="hidden sm:block" />Specialist
+                </h1>
+                <h2 class="hero-subtitle text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-400 mb-6 md:mb-8">
+                    Microsoft 365, Azure AD, & End-User Support
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed">
+                    Motivated professional with hands-on experience providing Level 1 and 2 support across key enterprise environments. I craft seamless digital operations by merging technical skill with a strong focus on client satisfaction.
+                </p>
+                <a href="#expertise" class="mt-8 md:mt-10 inline-block bg-accent text-white font-bold py-3 px-6 md:px-8 rounded-md hover:bg-green-500 transition duration-300 pulse-animation text-sm md:text-base">
+                    Explore My Capabilities
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 md:py-24 fade-in">
+            <h3 class="text-3xl md:text-5xl font-extrabold mb-8 md:mb-12 border-b-4 border-gray-800 pb-4 text-white">About Me</h3>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                <div class="space-y-4 md:space-y-6">
+                    <p class="text-base md:text-lg text-gray-300 leading-relaxed">
+                        I am a motivated IT Support Specialist skilled in troubleshooting hardware, software, and network issues. My background involves supporting ticketing systems like Fresh Service and managing user accounts across Microsoft 365, Azure AD, and Intune environments.
+                    </p>
+                    <p class="text-base md:text-lg text-gray-300 leading-relaxed">
+                        My approach is driven by measurable results: fast issue resolution and clear communication. I am proficient across Windows, macOS, and Android platforms and align my practices with security fundamentals, including the Essential Eight.
+                    </p>
+                    <p class="text-base md:text-lg text-gray-300 leading-relaxed">
+                        I am continuously upskilling through relevant IT qualifications and a commitment to learning. My goal is to ensure robust, secure, and intuitive digital experiences for all end-users.
+                    </p>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-[#1a1a1a] p-5 md:p-6 rounded-lg shadow-lg border border-gray-800 card-hover-effect">
+                        <p class="text-lg md:text-xl font-bold text-accent mb-2">Problem Solving</p>
+                        <p class="text-sm md:text-base text-gray-400">Effective in identifying root causes and resolving a range of technical issues independently or through escalation.</p>
+                    </div>
+                    <div class="bg-[#1a1a1a] p-5 md:p-6 rounded-lg shadow-lg border border-gray-800 card-hover-effect">
+                        <p class="text-lg md:text-xl font-bold text-accent mb-2">Client-Focused Support</p>
+                        <p class="text-sm md:text-base text-gray-400">Proven ability to assist users in a timely, friendly, and service-oriented manner, both in-person and remotely.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expertise Section -->
+        <section id="expertise" class="py-16 md:py-24 fade-in">
+            <h3 class="text-3xl md:text-5xl font-extrabold mb-8 md:mb-12 border-b-4 border-gray-800 pb-4 text-white">Core Technical Expertise</h3>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div class="bg-[#1a1a1a] p-5 md:p-6 rounded-lg shadow-xl card-hover-effect border border-gray-800">
+                    <div class="text-4xl mb-4">💻</div>
+                    <h4 class="text-xl md:text-2xl font-bold text-accent mb-2">End-User & System Support</h4>
+                    <p class="text-sm md:text-base text-gray-400 mb-4">L1/L2 Support across multi-platform environments.</p>
+                    <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+                        <li>• Troubleshooting Hardware, Software, Network</li>
+                        <li>• Windows, macOS, Android Device Management</li>
+                        <li>• ITSM Practices (ITIL-aligned Workflows)</li>
+                    </ul>
+                </div>
+
+                <div class="bg-[#1a1a1a] p-5 md:p-6 rounded-lg shadow-xl card-hover-effect border border-gray-800">
+                    <div class="text-4xl mb-4">☁️</div>
+                    <h4 class="text-xl md:text-2xl font-bold text-accent mb-2">Microsoft 365 & Cloud Ops</h4>
+                    <p class="text-sm md:text-base text-gray-400 mb-4">Administration of key cloud productivity and identity services.</p>
+                    <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+                        <li>• User Accounts, Exchange, SharePoint Management</li>
+                        <li>• Azure AD (Entra ID) & Cloud Access Control</li>
+                        <li>• CloudAlly Backup Solutions</li>
+                    </ul>
+                </div>
+
+                <div class="bg-[#1a1a1a] p-5 md:p-6 rounded-lg shadow-xl card-hover-effect border border-gray-800">
+                    <div class="text-4xl mb-4">🔧</div>
+                    <h4 class="text-xl md:text-2xl font-bold text-accent mb-2">System & Device Management</h4>
+                    <p class="text-sm md:text-base text-gray-400 mb-4">Proficiency in MDM and domain configuration.</p>
+                    <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+                        <li>• Microsoft Intune (MDM) Configuration</li>
+                        <li>• Windows Server & Active Directory (Users, Groups)</li>
+                        <li>• Virtualization (VMware, VirtualBox Exposure)</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-[#1a1a1a] p-5 md:p-6 rounded-lg shadow-xl card-hover-effect border border-gray-800">
+                    <div class="text-4xl mb-4">🔒</div>
+                    <h4 class="text-xl md:text-2xl font-bold text-accent mb-2">Networking & Security</h4>
+                    <p class="text-sm md:text-base text-gray-400 mb-4">Fundamentals for robust network and endpoint protection.</p>
+                    <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+                        <li>• DNS, DHCP, TCP/IP, LAN, VPN Fundamentals</li>
+                        <li>• VoIP Technologies (3CX Management)</li>
+                        <li>• Cybersecurity & Essential 8 Awareness</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-10 md:mt-12">
+                <h4 class="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">Key Systems & Tools</h4>
+                <div class="flex flex-wrap gap-2 md:gap-3">
+                    <span class="bg-gray-700 text-gray-200 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium hover:bg-accent hover:text-black transition cursor-pointer">Fresh Service</span>
+                    <span class="bg-gray-700 text-gray-200 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium hover:bg-accent hover:text-black transition cursor-pointer">Microsoft Intune</span>
+                    <span class="bg-gray-700 text-gray-200 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium hover:bg-accent hover:text-black transition cursor-pointer">Microsoft Azure</span>
+                    <span class="bg-gray-700 text-gray-200 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium hover:bg-accent hover:text-black transition cursor-pointer">Active Directory</span>
+                    <span class="bg-gray-700 text-gray-200 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium hover:bg-accent hover:text-black transition cursor-pointer">CloudAlly</span>
+                    <span class="bg-gray-700 text-gray-200 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium hover:bg-accent hover:text-black transition cursor-pointer">3CX VoIP</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Experience Section -->
+        <section id="experience" class="py-16 md:py-24 fade-in">
+            <h3 class="text-3xl md:text-5xl font-extrabold mb-8 md:mb-12 border-b-4 border-gray-800 pb-4 text-white">Practical Experience</h3>
+            
+            <div class="mb-8 md:mb-12 border-l-4 border-accent pl-4 md:pl-6 bg-[#1a1a1a] p-4 md:p-6 rounded-lg shadow-xl card-hover-effect">
+                <h4 class="text-2xl md:text-3xl font-bold text-white">IT Support Trainee</h4>
+                <p class="text-lg md:text-xl text-gray-400 mb-2">Job-Ready Program (Simulated IT Workplace)</p>
+                <p class="text-sm md:text-base text-accent mb-4">Jan 2025 – Apr 2025</p>
+                
+                <h5 class="text-base md:text-lg font-semibold text-white mb-2 mt-4">Key Responsibilities:</h5>
+                <ul class="list-disc list-inside space-y-1 text-sm md:text-base text-gray-300 ml-4">
+                    <li>Provided Tier 1 and Tier 2 technical support in a simulated service desk environment across multiple platforms.</li>
+                    <li>Administered user accounts and security groups in Microsoft 365 and Azure Active Directory.</li>
+                    <li>Deployed applications and managed compliance policies using Microsoft Intune for various devices.</li>
+                    <li>Created and resolved IT tickets following ITIL-aligned workflows in Freshservice.</li>
+                    <li>Configured VoIP call groups (3CX) and managed backup policies (CloudAlly).</li>
+                </ul>
+                <h5 class="text-base md:text-lg font-semibold text-white mt-4 mb-2">Key Achievements:</h5>
+                <ul class="list-disc list-inside space-y-1 text-sm md:text-base text-gray-300 ml-4">
+                    <li>Resolved over <strong class="text-accent">90% of Level 1 and 2 support tickets</strong> within SLA benchmarks.</li>
+                    <li>Streamlined onboarding and offboarding for 20+ simulated users via M365/Azure AD.</li>
+                    <li>Applied <strong class="text-accent">Essential Eight-aligned practices</strong> in access control and endpoint protection.</li>
+                </ul>
+            </div>
+            
+            <div class="mb-8 md:mb-12 border-l-4 border-gray-500 pl-4 md:pl-6 bg-[#1a1a1a] p-4 md:p-6 rounded-lg shadow-xl card-hover-effect">
+                <h4 class="text-2xl md:text-3xl font-bold text-white">Academic Project: Health Management System Web App</h4>
+                <p class="text-lg md:text-xl text-gray-400 mb-2">Collaborative Full-Stack Development</p>
+                
+                <h5 class="text-base md:text-lg font-semibold text-white mb-2 mt-4">Scope:</h5>
+                <ul class="list-disc list-inside space-y-1 text-sm md:text-base text-gray-300 ml-4">
+                    <li>Designed and developed a responsive front-end using <strong>HTML, CSS, and JavaScript</strong>.</li>
+                    <li>Implemented user authentication and portals (customer/admin).</li>
+                    <li>Connected registration forms to a <strong>MySQL</strong> database via phpMyAdmin.</li>
+                    <li>Built <strong>CRUD</strong> (Create, Read, Update, Delete) features for managing booking data.</li>
+                </ul>
+                <h5 class="text-base md:text-lg font-semibold text-white mt-4 mb-2">Tools Used:</h5>
+                <div class="flex flex-wrap gap-2 md:gap-3">
+                    <span class="bg-gray-600 px-3 py-1 rounded text-xs md:text-sm">HTML/CSS/JavaScript</span>
+                    <span class="bg-gray-600 px-3 py-1 rounded text-xs md:text-sm">Java</span>
+                    <span class="bg-gray-600 px-3 py-1 rounded text-xs md:text-sm">PHP</span>
+                    <span class="bg-gray-600 px-3 py-1 rounded text-xs md:text-sm">MySQL (phpMyAdmin)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-16 md:py-24 fade-in">
+            <h3 class="text-3xl md:text-5xl font-extrabold mb-8 md:mb-12 border-b-4 border-gray-800 pb-4 text-white">Education & Professional Development</h3>
+            
+            <div class="mb-6 md:mb-8 border-l-4 border-accent pl-4 md:pl-6 bg-[#1a1a1a] p-4 md:p-6 rounded-lg shadow-xl card-hover-effect">
+                <h4 class="text-xl md:text-2xl font-bold text-white">Professional Year Program – Information Technology</h4>
+                <p class="text-base md:text-lg text-gray-400">Queensland International Business Academy (QIBA), Sydney Campus</p>
+                <ul class="list-disc list-inside text-sm md:text-base text-gray-300 mt-3 ml-4">
+                    <li>Focus on Australian workplace culture, ethics, and communication.</li>
+                    <li>Includes practical internship placement exposure to real-world IT operations.</li>
+                </ul>
+            </div>
+            
+            <div class="mb-6 md:mb-8 border-l-4 border-gray-500 pl-4 md:pl-6 bg-[#1a1a1a] p-4 md:p-6 rounded-lg shadow-xl card-hover-effect">
+                <h4 class="text-xl md:text-2xl font-bold text-white">Bachelor of Information Technology (Software Design and Development)</h4>
+                <p class="text-base md:text-lg text-gray-400">Charles Sturt University</p>
+                <ul class="list-disc list-inside text-sm md:text-base text-gray-300 mt-3 ml-4">
+                    <li>Key Subjects: Computer Systems & Infrastructure, ICT Project Management, Ethics & Security in ICT.</li>
+                </ul>
+            </div>
+
+            <div class="mb-6 md:mb-8 border-l-4 border-gray-500 pl-4 md:pl-6 bg-[#1a1a1a] p-4 md:p-6 rounded-lg shadow-xl card-hover-effect">
+                <h4 class="text-xl md:text-2xl font-bold text-white">Advanced Diploma of Information Technology</h4>
+                <p class="text-base md:text-lg text-gray-400">Australia Institute of Business and Technology</p>
+                <ul class="list-disc list-inside text-sm md:text-base text-gray-300 mt-3 ml-4">
+                    <li>Key Subjects: Network & Server Administration, Endpoint Security & Incident Response, Integrated Server Solutions (Windows Server, AD).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 md:py-24 text-center fade-in">
+            <h3 class="text-3xl md:text-5xl font-extrabold mb-6 md:mb-8 border-b-4 border-gray-800 pb-4 text-white max-w-lg mx-auto">Get In Touch</h3>
+            <p class="text-base md:text-xl text-gray-300 max-w-2xl mx-auto mb-8 md:mb-10 px-4">
+                I am actively seeking opportunities where I can apply my Level 1/2 support expertise and Microsoft 365 administration skills. Feel free to connect!
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 md:gap-6 px-4">
+                <a href="mailto:moktanchhiring07@gmail.com" class="bg-accent text-white font-extrabold py-4 px-8 md:px-10 rounded-lg text-lg md:text-xl hover:bg-green-500 hover:scale-105 transition duration-300 shadow-2xl glow-effect border-2 border-green-600">
+                    📧 Email Me
+                </a>
+                <p class="text-lg md:text-2xl font-semibold text-white py-2 px-4 rounded-lg">
+                    <span class="text-accent">Phone:</span> 0452 658 002
+                </p>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="bg-[#
