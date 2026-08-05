@@ -120,10 +120,10 @@
         .skill-bar.animate { width: var(--skill-width); }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
-            50% { box-shadow: 0 0 0 15px rgba(52, 211, 153, 0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.35); }
+            50% { box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); }
         }
-        .pulse-animation { animation: pulse 2s infinite; }
+        .pulse-animation { animation: pulse 3s ease-in-out infinite; }
 
         .progress-bar {
             position: fixed;
@@ -205,7 +205,7 @@
         <section id="hero" class="min-h-[90vh] flex items-center pt-20 pb-16 fade-in">
             <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 w-full">
                 <div class="max-w-4xl">
-                    <p class="text-lg md:text-xl lg:text-2xl text-accent font-mono tracking-widest mb-4 animate-pulse">
+                    <p class="text-lg md:text-xl lg:text-2xl text-accent font-mono tracking-widest mb-4">
                         Hi! I'm Chhiring Moktan
                     </p>
                     <h1 class="hero-title text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight text-white mb-4">
